@@ -1,16 +1,18 @@
 # Spy (Improved) — WoW 3.3.5 Wrath of the Lich King #
 DOWNLOAD LATEST [HERE](https://github.com/LtyrantTheMultiboxer/Spy-improved/releases/download/Spy-Improved/Spy.-.Improved.rar)
 
-<img width="303" height="231" alt="Spy Demo" src="https://github.com/user-attachments/assets/fd931a86-e6b3-4988-b002-29410ff88515" />
-
-
-
 A backport / fix of the classic **Spy** addon for World of Warcraft 3.3.5a (Wrath
 of the Lich King). All original functionality of Spy is preserved exactly as it
 was — Nearby list, alerts, tabs, counters, Last Hour, Ignore, and Kill on Sight
 all behave the same. This package adds a small set of additive features and an
 **Appearance** options panel so you can customize the look of the window without
 touching XML or Lua.
+
+<img width="303" height="231" alt="Spy Demo" src="https://github.com/user-attachments/assets/fd931a86-e6b3-4988-b002-29410ff88515" />
+
+Added a Reskin (Theme Selection Frame)
+
+<img width="985" height="526" alt="SpyReskin Demo" src="https://github.com/user-attachments/assets/0bb36540-591f-4db5-9bce-fd4db1dd53a8" />
 
 ## What's new in this version ##
 
