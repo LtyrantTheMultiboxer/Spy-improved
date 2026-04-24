@@ -1,4 +1,4 @@
-# Spy (Improved) — WoW 3.3.5 Wrath of the Lich King #
+# Spy (Improved) — WoW 3.3.5 Wrath of the Lich King # DOWNLOAD LATEST [HERE](https://github.com/LtyrantTheMultiboxer/Spy-improved/releases/download/Spy-Improved/Spy-Improved.rar)
 
 <img width="303" height="231" alt="Spy Demo" src="https://github.com/user-attachments/assets/fd931a86-e6b3-4988-b002-29410ff88515" />
 
