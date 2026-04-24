@@ -362,6 +362,29 @@ Spy.options = {
                                                                 end
                                                         end,
                                                 },
+                                                DisplayListData = {
+                                                        name = "Display List Format",
+                                                        desc = "Choose what info is displayed for each player in the Spy list.",
+                                                        type = "select",
+                                                        order = 0.5,
+                                                        values = {
+                                                                NameLevelClass = "Name + Level + Class",
+                                                                NameLevelOnly = "Name + Level",
+                                                                NameGuild = "Name + Guild",
+                                                                NameLevelGuild = "Name + Level + Guild",
+                                                                NameLevelRace = "Name + Level + Race",
+                                                                NameLevelRaceClass = "Name + Level + Race + Class",
+                                                                NameClassGuild = "Name + Class + Guild",
+                                                                NameClass = "Name + Class",
+                                                                NameRace = "Name + Race",
+                                                                NameNone = "Name Only",
+                                                        },
+                                                        get = function(info) return Spy.db.profile.DisplayListData end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.DisplayListData = value
+                                                                Spy:RefreshCurrentList()
+                                                        end,
+                                                },
                                                 MaxPlayersShown = {
                                                         name = "Max Players Shown",
                                                         desc = "Maximum number of players shown in the Spy list.",
