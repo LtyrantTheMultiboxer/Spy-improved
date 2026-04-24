@@ -40,15 +40,30 @@ function Spy:RefreshCurrentList(player, source)
                                 end
                         end
                         
+                        local race = "??"
+                        if playerData and playerData.race then race = playerData.race end
+                        local classText = ""
+                        if L[class] and type(L[class]) == "string" then classText = L[class] end
                         if Spy.db.profile.DisplayListData == "NameLevelClass" then
-                                description = level.." "
-                                if L[class] and type(L[class]) == "string" then
-                                        description = description..L[class]
-                                end
+                                description = level.." "..classText
                         elseif Spy.db.profile.DisplayListData == "NameLevelOnly" then
                                 description = level.." "
                         elseif Spy.db.profile.DisplayListData == "NameGuild" then
-                                        description = guild
+                                description = guild
+                        elseif Spy.db.profile.DisplayListData == "NameLevelGuild" then
+                                description = level.." "..guild
+                        elseif Spy.db.profile.DisplayListData == "NameLevelRace" then
+                                description = level.." "..race
+                        elseif Spy.db.profile.DisplayListData == "NameLevelRaceClass" then
+                                description = level.." "..race.." "..classText
+                        elseif Spy.db.profile.DisplayListData == "NameClassGuild" then
+                                description = classText.." "..guild
+                        elseif Spy.db.profile.DisplayListData == "NameClass" then
+                                description = classText
+                        elseif Spy.db.profile.DisplayListData == "NameRace" then
+                                description = race
+                        elseif Spy.db.profile.DisplayListData == "NameNone" then
+                                description = ""
                         end
                         
                         if mode == 1 and Spy.InactiveList[data.player] then
