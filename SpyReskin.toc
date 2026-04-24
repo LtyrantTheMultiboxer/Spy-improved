@@ -1,0 +1,9 @@
+## Interface: 30300
+## Title: SpyReskin
+## Notes: A skinning engine for the Spy addon.
+## Author: xLT69x
+## Version: 1.0
+## RequiredDeps: Spy
+
+Media.lua
+SpyReskin.lua
