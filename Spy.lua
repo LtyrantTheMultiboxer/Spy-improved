@@ -246,6 +246,221 @@ Spy.options = {
                                                 Spy.db.profile.DisplayLastSeen = value
                                         end,
                                 },
+                                Appearance = {
+                                        name = "Appearance",
+                                        type = "group",
+                                        order = 50,
+                                        inline = true,
+                                        args = {
+                                                Font = {
+                                                        name = "Font",
+                                                        desc = "Font used by Spy text.",
+                                                        type = "select",
+                                                        order = 1,
+                                                        dialogControl = "LSM30_Font",
+                                                        values = function()
+                                                                return AceGUIWidgetLSMlists and AceGUIWidgetLSMlists.font or SM:HashTable("font")
+                                                        end,
+                                                        get = function(info)
+                                                                return Spy.db.profile.Font
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy:SetFont(value)
+                                                        end,
+                                                },
+                                                BarTexture = {
+                                                        name = "Bar Texture",
+                                                        desc = "Status bar texture used for Spy rows.",
+                                                        type = "select",
+                                                        order = 2,
+                                                        dialogControl = "LSM30_Statusbar",
+                                                        values = function()
+                                                                return AceGUIWidgetLSMlists and AceGUIWidgetLSMlists.statusbar or SM:HashTable("statusbar")
+                                                        end,
+                                                        get = function(info)
+                                                                return Spy.db.profile.BarTexture
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.BarTexture = value
+                                                                Spy:SetBarTextures(value)
+                                                        end,
+                                                },
+                                                BackgroundTexture = {
+                                                        name = "Background",
+                                                        desc = "Background texture for the Spy main window.",
+                                                        type = "select",
+                                                        order = 3,
+                                                        dialogControl = "LSM30_Background",
+                                                        values = function()
+                                                                return AceGUIWidgetLSMlists and AceGUIWidgetLSMlists.background or SM:HashTable("background")
+                                                        end,
+                                                        get = function(info)
+                                                                return Spy.db.profile.BackgroundTexture
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy:SetBackgroundTexture(value)
+                                                        end,
+                                                },
+                                                FontSize = {
+                                                        name = "Font Size",
+                                                        desc = "Size of the player row text in the Spy window.",
+                                                        type = "range",
+                                                        order = 3.5,
+                                                        min = 10,
+                                                        max = 40,
+                                                        step = 1,
+                                                        get = function(info)
+                                                                return Spy.db.profile.MainWindow.RowHeight
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.MainWindow.RowHeight = value
+                                                                if Spy.BarsChanged then Spy:BarsChanged() end
+                                                                Spy:RefreshCurrentList()
+                                                        end,
+                                                },
+                                                RowSpacing = {
+                                                        name = "Row Spacing",
+                                                        desc = "Vertical space between rows in the Spy window.",
+                                                        type = "range",
+                                                        order = 3.6,
+                                                        min = 0,
+                                                        max = 20,
+                                                        step = 1,
+                                                        get = function(info)
+                                                                return Spy.db.profile.MainWindow.RowSpacing
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.MainWindow.RowSpacing = value
+                                                                if Spy.BarsChanged then Spy:BarsChanged() end
+                                                                Spy:RefreshCurrentList()
+                                                        end,
+                                                },
+                                                TitleTextSize = {
+                                                        name = "Title Text Size",
+                                                        desc = "Height of the title bar text on the Spy window.",
+                                                        type = "range",
+                                                        order = 3.7,
+                                                        min = 8,
+                                                        max = 30,
+                                                        step = 1,
+                                                        get = function(info)
+                                                                return Spy.db.profile.MainWindow.TextHeight
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.MainWindow.TextHeight = value
+                                                                if Spy.MainWindow and Spy.MainWindow.Title then
+                                                                        Spy.MainWindow.Title:SetHeight(value)
+                                                                        if Spy.SetFontSize then
+                                                                                Spy:SetFontSize(Spy.MainWindow.Title, value)
+                                                                        end
+                                                                end
+                                                                if Spy.AlertWindow and Spy.AlertWindow.Title then
+                                                                        Spy.AlertWindow.Title:SetHeight(value)
+                                                                        if Spy.SetFontSize then
+                                                                                Spy:SetFontSize(Spy.AlertWindow.Title, value)
+                                                                        end
+                                                                end
+                                                        end,
+                                                },
+                                                MaxPlayersShown = {
+                                                        name = "Max Players Shown",
+                                                        desc = "Maximum number of players shown in the Spy list.",
+                                                        type = "range",
+                                                        order = 3.8,
+                                                        min = 1,
+                                                        max = 40,
+                                                        step = 1,
+                                                        get = function(info)
+                                                                return Spy.db.profile.ResizeSpyLimit
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.ResizeSpyLimit = value
+                                                                if value > Spy.ButtonLimit then
+                                                                        Spy.ButtonLimit = value
+                                                                end
+                                                                if Spy.MainWindow and Spy.MainWindow.Rows then
+                                                                        for i = 1, value do
+                                                                                Spy:CreateRow(i)
+                                                                        end
+                                                                end
+                                                                if Spy.BarsChanged then Spy:BarsChanged() end
+                                                                Spy:RefreshCurrentList()
+                                                        end,
+                                                },
+                                                Alpha = {
+                                                        name = "Window Opacity",
+                                                        desc = "Opacity of the Spy main window.",
+                                                        type = "range",
+                                                        order = 4,
+                                                        min = 0,
+                                                        max = 1,
+                                                        step = 0.05,
+                                                        isPercent = true,
+                                                        get = function(info)
+                                                                return Spy.db.profile.MainWindow.Alpha
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.MainWindow.Alpha = value
+                                                                Spy:UpdateMainWindow()
+                                                        end,
+                                                },
+                                                AlphaBG = {
+                                                        name = "Background Opacity",
+                                                        desc = "Opacity of the Spy main window while in an instance.",
+                                                        type = "range",
+                                                        order = 5,
+                                                        min = 0,
+                                                        max = 1,
+                                                        step = 0.05,
+                                                        isPercent = true,
+                                                        get = function(info)
+                                                                return Spy.db.profile.MainWindow.AlphaBG
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.MainWindow.AlphaBG = value
+                                                                Spy:UpdateMainWindow()
+                                                        end,
+                                                },
+                                                Locked = {
+                                                        name = "Lock Window",
+                                                        desc = "Lock the Spy window so it cannot be moved or resized.",
+                                                        type = "toggle",
+                                                        order = 6,
+                                                        width = "full",
+                                                        get = function(info)
+                                                                return Spy.db.profile.Locked
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.Locked = value
+                                                                Spy:LockWindows(value)
+                                                        end,
+                                                },
+                                                InvertSpy = {
+                                                        name = "Invert Spy (grow upward)",
+                                                        desc = "Inverts the Spy window so rows grow upward from the bottom. A UI reload is required for this change to take effect.",
+                                                        type = "toggle",
+                                                        order = 7,
+                                                        width = "full",
+                                                        get = function(info)
+                                                                return Spy.db.profile.InvertSpy
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.InvertSpy = value
+                                                                DEFAULT_CHAT_FRAME:AddMessage("Spy: Invert setting saved. Click \"Reload UI\" to apply.")
+                                                        end,
+                                                },
+                                                ReloadUI = {
+                                                        name = "Reload UI",
+                                                        desc = "Reload the user interface so Invert Spy and other display changes take effect.",
+                                                        type = "execute",
+                                                        order = 8,
+                                                        width = "full",
+                                                        confirm = true,
+                                                        confirmText = "Reload the UI now?",
+                                                        func = function() ReloadUI() end,
+                                                },
+                                        },
+                                },
                         },
                 },
                 AlertOptions = {
@@ -820,6 +1035,22 @@ Spy.optionsSlash = {
                         end,
                         dialogHidden = true
                 },
+                lock = {
+                        name = "Lock",
+                        desc = "Toggle locking the Spy window in place.",
+                        type = 'execute',
+                        order = 4.5,
+                        func = function()
+                                Spy.db.profile.Locked = not Spy.db.profile.Locked
+                                Spy:LockWindows(Spy.db.profile.Locked)
+                                if Spy.db.profile.Locked then
+                                        DEFAULT_CHAT_FRAME:AddMessage("Spy: window locked")
+                                else
+                                        DEFAULT_CHAT_FRAME:AddMessage("Spy: window unlocked")
+                                end
+                        end,
+                        dialogHidden = true
+                },
                 clear = {
                         name = L["ClearSlash"],
                         desc = L["ClearSlashDescription"],
@@ -1060,6 +1291,16 @@ local Default_Profile = {
 
 SM:Register("statusbar", "bar-LT", [[Interface\Addons\Spy\Textures\bar-LT.tga]])
 
+function Spy:SetBackgroundTexture(handle)
+        Spy.db.profile.BackgroundTexture = handle
+        if handle and Spy.MainWindow and Spy.MainWindow.Background then
+                local tex = SM:Fetch("background", handle)
+                if tex then
+                        Spy.MainWindow.Background:SetTexture(tex)
+                end
+        end
+end
+
 function Spy:CheckDatabase()
         if not SpyPerCharDB or not SpyPerCharDB.PlayerData then
                 SpyPerCharDB = {}
@@ -1214,6 +1455,10 @@ function Spy:HandleProfileChanges()
         Spy:RestoreMainWindowPosition(Spy.db.profile.MainWindow.Position.x, Spy.db.profile.MainWindow.Position.y, Spy.db.profile.MainWindow.Position.w, 34)     
         Spy:ResizeMainWindow()
         Spy:UpdateTimeoutSettings()
+        if Spy.db.profile.Font then Spy:SetFont(Spy.db.profile.Font) end
+        if Spy.db.profile.BarTexture then Spy:SetBarTextures(Spy.db.profile.BarTexture) end
+        if Spy.db.profile.BackgroundTexture then Spy:SetBackgroundTexture(Spy.db.profile.BackgroundTexture) end
+        Spy:UpdateMainWindow()
         Spy:LockWindows(Spy.db.profile.Locked)
         Spy:ClampToScreen(Spy.db.profile.ClampToScreen) 
 end
@@ -1443,6 +1688,17 @@ function Spy:OnInitialize()
         SM.RegisterCallback(Spy, "LibSharedMedia_SetGlobal", "UpdateBarTextures")
         if Spy.db.profile.BarTexture then
                 Spy:SetBarTextures(Spy.db.profile.BarTexture)
+        end
+        if Spy.db.profile.BackgroundTexture then
+                Spy:SetBackgroundTexture(Spy.db.profile.BackgroundTexture)
+        end
+        if Spy.db.profile.ResizeSpyLimit and Spy.db.profile.ResizeSpyLimit > Spy.ButtonLimit then
+                Spy.ButtonLimit = Spy.db.profile.ResizeSpyLimit
+                if Spy.MainWindow and Spy.MainWindow.Rows then
+                        for i = 1, Spy.db.profile.ResizeSpyLimit do
+                                Spy:CreateRow(i)
+                        end
+                end
         end
 
         Spy:LockWindows(Spy.db.profile.Locked)
