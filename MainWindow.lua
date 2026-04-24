@@ -1337,7 +1337,7 @@ function Spy:BarsChanged()
                 v:SetHeight(Spy.db.profile.MainWindow.RowHeight)
                 v:SetPoint("TOPLEFT", Spy.MainWindow, "TOPLEFT", 2, -34 - (Spy.db.profile.MainWindow.RowHeight + Spy.db.profile.MainWindow.RowSpacing) * (k - 1))                       
                 Spy:SetFontSize(v.LeftText, math.max(Spy.db.profile.MainWindow.RowHeight * 0.75, Spy.db.profile.MainWindow.RowHeight - 3))
-                if Spy.db.profile.MainWindow.GuildTextHeight then Spy:SetFontSize(v.RightText, Spy.db.profile.MainWindow.GuildTextHeight) else Spy:SetFontSize(v.RightText, math.max(Spy.db.profile.MainWindow.RowHeight * 0.5, Spy.db.profile.MainWindow.RowHeight - 12)) end
+                Spy:SetFontSize(v.RightText, math.max(Spy.db.profile.MainWindow.RowHeight * 0.5, Spy.db.profile.MainWindow.RowHeight - 12))
         end
         Spy:ResizeMainWindow()
 end
