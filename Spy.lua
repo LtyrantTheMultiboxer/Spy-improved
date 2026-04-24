@@ -410,6 +410,29 @@ Spy.options = {
                                                                 Spy:RefreshCurrentList()
                                                         end,
                                                 },
+                                                GuildTextHeight = {
+                                                        name = "Guild Font Size",
+                                                        desc = "Font size for the guild text on the right side of each row.",
+                                                        type = "range",
+                                                        order = 3.9,
+                                                        min = 6,
+                                                        max = 30,
+                                                        step = 1,
+                                                        get = function(info)
+                                                                return Spy.db.profile.MainWindow.GuildTextHeight
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.MainWindow.GuildTextHeight = value
+                                                                if Spy.MainWindow and Spy.MainWindow.Rows then
+                                                                        for k, v in pairs(Spy.MainWindow.Rows) do
+                                                                                if v.RightText then
+                                                                                        Spy:SetFontSize(v.RightText, value)
+                                                                                end
+                                                                        end
+                                                                end
+                                                                Spy:RefreshCurrentList()
+                                                        end,
+                                                },
                                                 Alpha = {
                                                         name = "Window Opacity",
                                                         desc = "Opacity of the Spy main window.",
@@ -1216,6 +1239,7 @@ local Default_Profile = {
                         RowHeight=24,
                         RowSpacing=2,
                         TextHeight=18,
+                        GuildTextHeight=12,
                         AutoHide=true,
                         BarText={
                                 RankNum = true,
@@ -1403,6 +1427,7 @@ function Spy:CheckDatabase()
         if Spy.db.profile.MainWindow.RowHeight == nil then Spy.db.profile.MainWindow.RowHeight = Default_Profile.profile.MainWindow.RowHeight end
         if Spy.db.profile.MainWindow.RowSpacing == nil then Spy.db.profile.MainWindow.RowSpacing = Default_Profile.profile.MainWindow.RowSpacing end
         if Spy.db.profile.MainWindow.TextHeight == nil then Spy.db.profile.MainWindow.TextHeight = Default_Profile.profile.MainWindow.TextHeight end
+        if Spy.db.profile.MainWindow.GuildTextHeight == nil then Spy.db.profile.MainWindow.GuildTextHeight = Default_Profile.profile.MainWindow.GuildTextHeight end
         if Spy.db.profile.MainWindow.AutoHide == nil then Spy.db.profile.MainWindow.AutoHide = Default_Profile.profile.MainWindow.AutoHide end
         if Spy.db.profile.MainWindow.BarText == nil then Spy.db.profile.MainWindow.BarText = Default_Profile.profile.MainWindow.BarText end
         if Spy.db.profile.MainWindow.BarText.RankNum == nil then Spy.db.profile.MainWindow.BarText.RankNum = Default_Profile.profile.MainWindow.BarText.RankNum end
