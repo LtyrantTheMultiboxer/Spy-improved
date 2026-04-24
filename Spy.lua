@@ -289,7 +289,7 @@ Spy.options = {
                                                         name = "Background",
                                                         desc = "Background texture for the Spy main window.",
                                                         type = "select",
-                                                        order = 3,
+                                                        order = 4,
                                                         dialogControl = "LSM30_Background",
                                                         values = function()
                                                                 return AceGUIWidgetLSMlists and AceGUIWidgetLSMlists.background or SM:HashTable("background")
@@ -305,7 +305,7 @@ Spy.options = {
                                                         name = "Font Size",
                                                         desc = "Size of the player row text in the Spy window.",
                                                         type = "range",
-                                                        order = 3.5,
+                                                        order = 6,
                                                         min = 10,
                                                         max = 40,
                                                         step = 1,
@@ -322,7 +322,7 @@ Spy.options = {
                                                         name = "Row Spacing",
                                                         desc = "Vertical space between rows in the Spy window.",
                                                         type = "range",
-                                                        order = 3.6,
+                                                        order = 7,
                                                         min = 0,
                                                         max = 20,
                                                         step = 1,
@@ -339,7 +339,7 @@ Spy.options = {
                                                         name = "Title Text Size",
                                                         desc = "Height of the title bar text on the Spy window.",
                                                         type = "range",
-                                                        order = 3.7,
+                                                        order = 8,
                                                         min = 8,
                                                         max = 30,
                                                         step = 1,
@@ -362,34 +362,11 @@ Spy.options = {
                                                                 end
                                                         end,
                                                 },
-                                                DisplayListData = {
-                                                        name = "Display List Format",
-                                                        desc = "Choose what info is displayed for each player in the Spy list.",
-                                                        type = "select",
-                                                        order = 0.5,
-                                                        values = {
-                                                                NameLevelClass = "Name + Level + Class",
-                                                                NameLevelOnly = "Name + Level",
-                                                                NameGuild = "Name + Guild",
-                                                                NameLevelGuild = "Name + Level + Guild",
-                                                                NameLevelRace = "Name + Level + Race",
-                                                                NameLevelRaceClass = "Name + Level + Race + Class",
-                                                                NameClassGuild = "Name + Class + Guild",
-                                                                NameClass = "Name + Class",
-                                                                NameRace = "Name + Race",
-                                                                NameNone = "Name Only",
-                                                        },
-                                                        get = function(info) return Spy.db.profile.DisplayListData end,
-                                                        set = function(info, value)
-                                                                Spy.db.profile.DisplayListData = value
-                                                                Spy:RefreshCurrentList()
-                                                        end,
-                                                },
                                                 MaxPlayersShown = {
                                                         name = "Max Players Shown",
                                                         desc = "Maximum number of players shown in the Spy list.",
                                                         type = "range",
-                                                        order = 3.8,
+                                                        order = 10,
                                                         min = 1,
                                                         max = 40,
                                                         step = 1,
@@ -414,7 +391,7 @@ Spy.options = {
                                                         name = "Guild Font Size",
                                                         desc = "Font size for the guild text on the right side of each row.",
                                                         type = "range",
-                                                        order = 3.9,
+                                                        order = 9,
                                                         min = 6,
                                                         max = 30,
                                                         step = 1,
@@ -433,11 +410,41 @@ Spy.options = {
                                                                 Spy:RefreshCurrentList()
                                                         end,
                                                 },
+                                                BorderTexture = {
+                                                        name = "Frame Border",
+                                                        desc = "Border style for the Spy and Alert windows.",
+                                                        type = "select",
+                                                        order = 3,
+                                                        dialogControl = "LSM30_Border",
+                                                        values = AceGUIWidgetLSMlists and AceGUIWidgetLSMlists.border or SM:HashTable("border"),
+                                                        get = function(info)
+                                                                return Spy.db.profile.BorderTexture or "None"
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy:SetBorderTexture(value)
+                                                        end,
+                                                },
+                                                BorderSize = {
+                                                        name = "Border Size",
+                                                        desc = "Thickness of the frame border.",
+                                                        type = "range",
+                                                        order = 5,
+                                                        min = 1,
+                                                        max = 32,
+                                                        step = 1,
+                                                        get = function(info)
+                                                                return Spy.db.profile.BorderSize or 12
+                                                        end,
+                                                        set = function(info, value)
+                                                                Spy.db.profile.BorderSize = value
+                                                                Spy:SetBorderTexture(Spy.db.profile.BorderTexture)
+                                                        end,
+                                                },
                                                 Alpha = {
                                                         name = "Window Opacity",
                                                         desc = "Opacity of the Spy main window.",
                                                         type = "range",
-                                                        order = 4,
+                                                        order = 11,
                                                         min = 0,
                                                         max = 1,
                                                         step = 0.05,
@@ -454,7 +461,7 @@ Spy.options = {
                                                         name = "Background Opacity",
                                                         desc = "Opacity of the Spy main window while in an instance.",
                                                         type = "range",
-                                                        order = 5,
+                                                        order = 12,
                                                         min = 0,
                                                         max = 1,
                                                         step = 0.05,
@@ -471,7 +478,7 @@ Spy.options = {
                                                         name = "Lock Window",
                                                         desc = "Lock the Spy window so it cannot be moved or resized.",
                                                         type = "toggle",
-                                                        order = 6,
+                                                        order = 13,
                                                         width = "full",
                                                         get = function(info)
                                                                 return Spy.db.profile.Locked
@@ -485,7 +492,7 @@ Spy.options = {
                                                         name = "Invert Spy (grow upward)",
                                                         desc = "Inverts the Spy window so rows grow upward from the bottom. A UI reload is required for this change to take effect.",
                                                         type = "toggle",
-                                                        order = 7,
+                                                        order = 14,
                                                         width = "full",
                                                         get = function(info)
                                                                 return Spy.db.profile.InvertSpy
@@ -499,7 +506,7 @@ Spy.options = {
                                                         name = "Reload UI",
                                                         desc = "Reload the user interface so Invert Spy and other display changes take effect.",
                                                         type = "execute",
-                                                        order = 8,
+                                                        order = 15,
                                                         width = "full",
                                                         confirm = true,
                                                         confirmText = "Reload the UI now?",
@@ -1265,6 +1272,8 @@ local Default_Profile = {
                         LocationSize=10,                        
                 },
                 BarTexture="bar-LT",            
+                BorderTexture="None",
+                BorderSize=12,
                 MainWindowVis=true,
                 CurrentList=1,
                 Locked=false,
@@ -1348,6 +1357,31 @@ function Spy:SetBackgroundTexture(handle)
         end
 end
 
+function Spy:ApplyBorderToFrame(frame, edgeFile, edgeSize)
+        if not frame then return end
+        local bd = frame:GetBackdrop()
+        local newBd = {
+                bgFile = bd and bd.bgFile or nil,
+                tile = bd and bd.tile or false,
+                tileSize = bd and bd.tileSize or 0,
+                edgeFile = edgeFile,
+                edgeSize = edgeSize or 12,
+                insets = { left = 2, right = 2, top = 2, bottom = 2 },
+        }
+        frame:SetBackdrop(newBd)
+end
+
+function Spy:SetBorderTexture(handle)
+        Spy.db.profile.BorderTexture = handle
+        local edgeFile = nil
+        if handle and handle ~= "None" then
+                edgeFile = SM:Fetch("border", handle)
+        end
+        local size = Spy.db.profile.BorderSize or 12
+        if Spy.MainWindow then Spy:ApplyBorderToFrame(Spy.MainWindow, edgeFile, size) end
+        if Spy.AlertWindow then Spy:ApplyBorderToFrame(Spy.AlertWindow, edgeFile, size) end
+end
+
 function Spy:CheckDatabase()
         if not SpyPerCharDB or not SpyPerCharDB.PlayerData then
                 SpyPerCharDB = {}
@@ -1428,6 +1462,8 @@ function Spy:CheckDatabase()
         if Spy.db.profile.MainWindow.RowSpacing == nil then Spy.db.profile.MainWindow.RowSpacing = Default_Profile.profile.MainWindow.RowSpacing end
         if Spy.db.profile.MainWindow.TextHeight == nil then Spy.db.profile.MainWindow.TextHeight = Default_Profile.profile.MainWindow.TextHeight end
         if Spy.db.profile.MainWindow.GuildTextHeight == nil then Spy.db.profile.MainWindow.GuildTextHeight = Default_Profile.profile.MainWindow.GuildTextHeight end
+        if Spy.db.profile.BorderTexture == nil then Spy.db.profile.BorderTexture = Default_Profile.profile.BorderTexture end
+        if Spy.db.profile.BorderSize == nil then Spy.db.profile.BorderSize = Default_Profile.profile.BorderSize end
         if Spy.db.profile.MainWindow.AutoHide == nil then Spy.db.profile.MainWindow.AutoHide = Default_Profile.profile.MainWindow.AutoHide end
         if Spy.db.profile.MainWindow.BarText == nil then Spy.db.profile.MainWindow.BarText = Default_Profile.profile.MainWindow.BarText end
         if Spy.db.profile.MainWindow.BarText.RankNum == nil then Spy.db.profile.MainWindow.BarText.RankNum = Default_Profile.profile.MainWindow.BarText.RankNum end
@@ -1739,6 +1775,9 @@ function Spy:OnInitialize()
         end
         if Spy.db.profile.BackgroundTexture then
                 Spy:SetBackgroundTexture(Spy.db.profile.BackgroundTexture)
+        end
+        if Spy.db.profile.BorderTexture then
+                Spy:SetBorderTexture(Spy.db.profile.BorderTexture)
         end
         if Spy.db.profile.ResizeSpyLimit and Spy.db.profile.ResizeSpyLimit > Spy.ButtonLimit then
                 Spy.ButtonLimit = Spy.db.profile.ResizeSpyLimit
