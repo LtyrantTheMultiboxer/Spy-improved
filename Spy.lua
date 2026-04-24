@@ -488,7 +488,17 @@ Spy.options = {
                                                                 Spy:LockWindows(value)
                                                         end,
                                                 },
-                                                InvertSpy = {
+                                                Theme = {
+                                                          name = "Theme",
+                                                          desc = "Open the Spy Reskin theme picker.",
+                                                          type = "execute",
+                                                          order = 13.5,
+                                                          width = "full",
+                                                          func = function()
+                                                                  Spy:ToggleReskinFrame()
+                                                          end,
+                                                  },
+                                                  InvertSpy = {
                                                         name = "Invert Spy (grow upward)",
                                                         desc = "Inverts the Spy window so rows grow upward from the bottom. A UI reload is required for this change to take effect.",
                                                         type = "toggle",
@@ -1051,12 +1061,12 @@ Spy.options = {
                         order = 100,
                         args = {
                                 header = {
-                                        name = "Spy (Improved) for WoW 3.3.5",
+                                        name = "Spy (Friendly-Fix) for WoW 3.3.5",
                                         type = "header",
                                         order = 1,
                                 },
                                 intro = {
-                                        name = "A backport of the Spy addon with quality-of-life additions. All original Spy functionality is preserved exactly as it was  -  Nearby list, alerts, tabs, counters, Last Hour, Ignore, and Kill on Sight.",
+                                        name = "A backport of the classic Spy addon with quality-of-life additions. All original Spy functionality is preserved exactly as it was  -  Nearby list, alerts, tabs, counters, Last Hour, Ignore, and Kill on Sight.",
                                         type = "description",
                                         order = 2,
                                         fontSize = "medium",
@@ -1176,6 +1186,16 @@ Spy.optionsSlash = {
                                 else
                                         DEFAULT_CHAT_FRAME:AddMessage("Spy: window unlocked")
                                 end
+                        end,
+                        dialogHidden = true
+                },
+                reskin = {
+                        name = "Reskin",
+                        desc = "Open the Spy Reskin theme picker.",
+                        type = 'execute',
+                        order = 4.7,
+                        func = function()
+                                Spy:ToggleReskinFrame()
                         end,
                         dialogHidden = true
                 },
@@ -1456,6 +1476,152 @@ function Spy:SetBorderTexture(handle)
         if Spy.MainWindow then Spy:ApplyBorderToFrame(Spy.MainWindow, edgeFile, size) end
         if Spy.AlertWindow then Spy:ApplyBorderToFrame(Spy.AlertWindow, edgeFile, size) end
 end
+  -- ===========================================================================
+  -- Spy Reskin (merged from SpyReskin by xLT69x)
+  -- Provides a theme-picker frame for restyling the Spy main window.
+  -- ===========================================================================
+
+  Spy.ReskinClassColors = {
+          DEATHKNIGHT = { r = 0.77, g = 0.12, b = 0.23 },
+          DRUID       = { r = 1.00, g = 0.49, b = 0.04 },
+          HUNTER      = { r = 0.67, g = 0.83, b = 0.45 },
+          MAGE        = { r = 0.41, g = 0.80, b = 0.94 },
+          PALADIN     = { r = 0.96, g = 0.55, b = 0.73 },
+          PRIEST      = { r = 1.00, g = 1.00, b = 1.00 },
+          ROGUE       = { r = 1.00, g = 0.96, b = 0.41 },
+          SHAMAN      = { r = 0.00, g = 0.44, b = 0.87 },
+          WARLOCK     = { r = 0.58, g = 0.51, b = 0.79 },
+          WARRIOR     = { r = 0.78, g = 0.61, b = 0.43 },
+  }
+
+  Spy.ReskinBackdrop = {
+          bgFile = "Interface\\Buttons\\WHITE8X8",
+          edgeFile = "Interface\\Buttons\\WHITE8X8",
+          tile = false, tileSize = 0, edgeSize = 1,
+          insets = { left = 0, right = 0, top = 0, bottom = 0 }
+  }
+
+  Spy.ReskinThemes = {
+          { name = "Default Spy",  isDefault = true },
+          { name = "Class Theme",  useClass = true, a = 0.85 },
+          { name = "Dark Theme",   r = 0.03, g = 0.03, b = 0.03, a = 0.95 },
+          { name = "White Theme",  r = 0.95, g = 0.95, b = 0.95, a = 0.95 },
+  }
+
+  local function GenerateRandomReskinThemes()
+          local randomNames = { "Crimson", "Forest", "Ocean", "Sunset", "Royal", "Frost" }
+          if math and math.randomseed and time then math.randomseed(time()) end
+          for _, n in ipairs(randomNames) do
+                  local r = 0.10 + math.random() * 0.6
+                  local g = 0.10 + math.random() * 0.6
+                  local b = 0.10 + math.random() * 0.6
+                  table.insert(Spy.ReskinThemes, {
+                          name = n .. " Theme",
+                          r = r, g = g, b = b, a = 0.9
+                  })
+          end
+  end
+  GenerateRandomReskinThemes()
+
+  function Spy:FindReskinTheme(name)
+          if not name then return nil end
+          for _, t in ipairs(Spy.ReskinThemes) do
+                  if t.name == name then return t end
+          end
+          return nil
+  end
+
+  function Spy:ApplyReskinTheme(theme)
+          if not Spy.MainWindow or not theme then return end
+          if theme.isDefault then
+                  Spy.MainWindow:SetBackdrop({
+                          bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+                          edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+                          tile = true, tileSize = 16, edgeSize = 16,
+                          insets = { left = 4, right = 4, top = 4, bottom = 4 }
+                  })
+                  Spy.MainWindow:SetBackdropColor(0, 0, 0, 0.8)
+                  Spy.MainWindow:SetBackdropBorderColor(1, 1, 1, 1)
+                  Spy.db.profile.ReskinTheme = nil
+                  if Spy.db.profile.BackgroundTexture then
+                          Spy:SetBackgroundTexture(Spy.db.profile.BackgroundTexture)
+                  end
+                  if Spy.db.profile.BorderTexture then
+                          Spy:SetBorderTexture(Spy.db.profile.BorderTexture)
+                  end
+          else
+                  local r, g, b, a = theme.r, theme.g, theme.b, theme.a or 0.85
+                  if theme.useClass then
+                          local _, class = UnitClass("player")
+                          local c = Spy.ReskinClassColors[class] or { r = 0.5, g = 0.5, b = 0.5 }
+                          r, g, b = c.r, c.g, c.b
+                  end
+                  Spy.MainWindow:SetBackdrop(Spy.ReskinBackdrop)
+                  Spy.MainWindow:SetBackdropColor(r, g, b, a)
+                  Spy.MainWindow:SetBackdropBorderColor(0, 0, 0, 1)
+                  Spy.db.profile.ReskinTheme = theme.name
+          end
+  end
+
+  function Spy:CreateReskinFrame()
+          if Spy.ReskinFrame then return Spy.ReskinFrame end
+          local rowH = 22
+          local count = #Spy.ReskinThemes
+          local frameH = 40 + (count * (rowH + 4)) + 10
+
+          local f = CreateFrame("Frame", "SpyReskinFrame", UIParent)
+          f:SetWidth(220)
+          f:SetHeight(frameH)
+          f:SetPoint("CENTER")
+          f:SetFrameStrata("DIALOG")
+          f:SetMovable(true)
+          f:EnableMouse(true)
+          f:SetClampedToScreen(true)
+          f:RegisterForDrag("LeftButton")
+          f:SetScript("OnDragStart", f.StartMoving)
+          f:SetScript("OnDragStop", f.StopMovingOrSizing)
+          f:SetBackdrop(Spy.ReskinBackdrop)
+          f:SetBackdropColor(0.05, 0.05, 0.05, 0.95)
+          f:SetBackdropBorderColor(0, 0, 0, 1)
+          f:Hide()
+
+          local title = f:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+          title:SetPoint("TOP", 0, -10)
+          title:SetText("Spy Reskin by xLT69x")
+
+          local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
+          close:SetPoint("TOPRIGHT", 0, 0)
+
+          local y = -32
+          for _, theme in ipairs(Spy.ReskinThemes) do
+                  local btn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+                  btn:SetWidth(190)
+                  btn:SetHeight(rowH)
+                  btn:SetPoint("TOP", 0, y)
+                  btn:SetText(theme.name)
+                  local capturedTheme = theme
+                  btn:SetScript("OnClick", function()
+                          Spy:ApplyReskinTheme(capturedTheme)
+                  end)
+                  y = y - (rowH + 4)
+          end
+
+          Spy.ReskinFrame = f
+          return f
+  end
+
+  function Spy:ToggleReskinFrame()
+          Spy:CreateReskinFrame()
+          if Spy.ReskinFrame:IsShown() then
+                  Spy.ReskinFrame:Hide()
+          else
+                  Spy.ReskinFrame:Show()
+          end
+  end
+
+  SLASH_SPYRESKIN1 = "/spyreskin"
+  SlashCmdList["SPYRESKIN"] = function() Spy:ToggleReskinFrame() end
+  
 
 function Spy:CheckDatabase()
         if not SpyPerCharDB or not SpyPerCharDB.PlayerData then
@@ -1853,6 +2019,10 @@ function Spy:OnInitialize()
         end
         if Spy.db.profile.BorderTexture then
                 Spy:SetBorderTexture(Spy.db.profile.BorderTexture)
+        end
+        if Spy.db.profile.ReskinTheme then
+                local t = Spy:FindReskinTheme(Spy.db.profile.ReskinTheme)
+                if t then Spy:ApplyReskinTheme(t) end
         end
         if Spy.db.profile.ResizeSpyLimit and Spy.db.profile.ResizeSpyLimit > Spy.ButtonLimit then
                 Spy.ButtonLimit = Spy.db.profile.ResizeSpyLimit
