@@ -1044,6 +1044,81 @@ Spy.options = {
                                 },
                         },
                 },
+                About = {
+                        name = "About",
+                        desc = "About Spy (Friendly-Fix)",
+                        type = "group",
+                        order = 100,
+                        args = {
+                                header = {
+                                        name = "Spy (Improved) for WoW 3.3.5",
+                                        type = "header",
+                                        order = 1,
+                                },
+                                intro = {
+                                        name = "A backport of the Spy addon with quality-of-life additions. All original Spy functionality is preserved exactly as it was  -  Nearby list, alerts, tabs, counters, Last Hour, Ignore, and Kill on Sight.",
+                                        type = "description",
+                                        order = 2,
+                                        fontSize = "medium",
+                                },
+                                spacer1 = {
+                                        name = " ",
+                                        type = "description",
+                                        order = 3,
+                                },
+                                featuresHeader = {
+                                        name = "Features",
+                                        type = "header",
+                                        order = 4,
+                                },
+                                features = {
+                                        name = "|cffffd200- Friendly Counter:|r Green counter showing nearby friendly players, updated from target, mouseover, and combat log.\n"
+                                              .. "|cffffd200- Friendly Counter Tooltip:|r Mouseover the counter for a quick description.\n"
+                                              .. "|cffffd200- Appearance Panel:|r Customize the look of the Spy window without editing files.\n"
+                                              .. "    * Font (LibSharedMedia)\n"
+                                              .. "    * Bar Texture (LibSharedMedia)\n"
+                                              .. "    * Frame Border + Border Size (LibSharedMedia)\n"
+                                              .. "    * Background texture (LibSharedMedia)\n"
+                                              .. "    * Font Size, Row Spacing, Title Text Size, Guild Font Size sliders\n"
+                                              .. "    * Max Players Shown (1-40)\n"
+                                              .. "    * Window Opacity and Background Opacity sliders\n"
+                                              .. "    * Lock Window toggle\n"
+                                              .. "    * Invert Spy (grow upward) toggle + Reload UI button\n"
+                                              .. "|cffffd200- Slash Commands:|r /spy lock toggles the window lock; /spy keeps all original commands (show, hide, reset, clear, config, kos, ignore, stats, test).\n"
+                                              .. "|cffffd200- Per-Profile Settings:|r All Appearance options are saved per profile.",
+                                        type = "description",
+                                        order = 5,
+                                        fontSize = "medium",
+                                },
+                                spacer2 = {
+                                        name = " ",
+                                        type = "description",
+                                        order = 6,
+                                },
+                                creditsHeader = {
+                                        name = "Credits",
+                                        type = "header",
+                                        order = 7,
+                                },
+                                originalCredits = {
+                                        name = "Original Spy addon by the Spy maintainers and community.",
+                                        type = "description",
+                                        order = 8,
+                                        fontSize = "medium",
+                                },
+                                spacer3 = {
+                                        name = " ",
+                                        type = "description",
+                                        order = 9,
+                                },
+                                createdBy = {
+                                        name = "|cff3399ffCreated by xLT69x|r",
+                                        type = "description",
+                                        order = 10,
+                                        fontSize = "large",
+                                },
+                        },
+                },
         },
 }
 
