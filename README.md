@@ -44,6 +44,25 @@ Appearance** section. The current order is:
 All Appearance settings are stored per profile, so switching profiles switches
 the look as well.
 
+### Spy Reskin (merged from SpyReskin by xLT69x) ##
+A built-in theme picker for the Spy main window. Open it with `/spy reskin` or
+`/spyreskin` and pick from one of ten themes:
+
+1. **Default Spy** — restores the original Spy backdrop / border.
+2. **Class Theme** — uses your character's class color.
+3. **Dark Theme** — flat near-black backdrop.
+4. **White Theme** — flat near-white backdrop.
+5. **Crimson Theme** *(random)*
+6. **Forest Theme** *(random)*
+7. **Ocean Theme** *(random)*
+8. **Sunset Theme** *(random)*
+9. **Royal Theme** *(random)*
+10. **Frost Theme** *(random)*
+
+The six "random" themes generate a fresh color each session, so they're a quick
+way to get a brand-new look. Your selection is saved per profile and reapplied
+the next time you log in.
+
 ### Slash commands ###
 Command	and What it does
 - `/spy` — open the options window (original behavior).
@@ -57,6 +76,7 @@ Command	and What it does
 - `/spy ignore <name>`	Add or remove a player from the Ignore list. Example: /spy ignore Alice
 - `/spy stats`	Toggle the Spy statistics window.
 - `/spy test`	Trigger a test stealth alert (uses the name "Bazzalan").
+- `/spy reskin` (or `/spyreskin`) — open the Spy Reskin theme picker.
 
 ## Installation ##
 
@@ -73,3 +93,8 @@ The folder name on disk **must** be `Spy` for WoW to load it.
   The shared-media font / status bar / background / border dropdowns will
   automatically include any textures registered by other addons (SharedMedia,
   ElvUI, Masque, etc.).
+
+## Credits ##
+
+- **Original addon:** Spy by the Spy community maintainers.
+- **Backport, friendly counter, Reskin and Appearance options:** this repository.
